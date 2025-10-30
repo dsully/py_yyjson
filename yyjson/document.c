@@ -549,7 +549,6 @@ static int Document_init(DocumentObject *self, PyObject *args, PyObject *kwds) {
     self->i_doc = yyjson_read_file(str, r_flag, self->alc, &err);
 
     Py_XDECREF(as_str);
-    Py_XDECREF(str);
 
     if (!self->i_doc) {
       PyErr_SetString(PyExc_ValueError, err.msg);
