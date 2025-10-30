@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "yyjson"
-version = "4.0.7"
+version = "4.1.0"
 description = "JSON parser & serializer built on yyjson"
 readme = "README.md"
 authors = [
@@ -22,6 +22,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Operating System :: OS Independent",
@@ -49,3 +50,7 @@ ext-modules = [
 ]
 packages = ["yyjson"]
 
+[tool.uv]
+cache-keys = [
+    { dir = "yyjson" }
+]

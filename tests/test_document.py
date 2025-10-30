@@ -152,6 +152,30 @@ def test_document_boolean_type():
     assert doc.dumps() == "[false]"
     assert doc.as_obj == [False]
 
+def test_document_list_type():
+    doc = Document('[1,2,3,4]')
+    assert doc.dumps() == '[1,2,3,4]'
+    assert doc.as_obj == [1, 2, 3, 4]
+
+    doc = Document([1, 2, 3, 4])
+    assert doc.dumps() == '[1,2,3,4]'
+    assert doc.as_obj == [1, 2, 3, 4]
+
+def test_document_tuple_type():
+    doc = Document(())
+    assert doc.dumps() == '[]'
+
+    doc = Document((1,))
+    assert doc.dumps() == '[1]'
+
+    doc = Document((1, 2, 3, 4))
+    assert doc.dumps() == '[1,2,3,4]'
+
+    doc = Document([(1, 2), (3, 4)])
+    assert doc.dumps() == '[[1,2],[3,4]]'
+
+    doc = Document({'test': (1, 2)})
+    assert doc.dumps() == '{"test":[1,2]}'
 
 def test_document_none_type():
     """
@@ -164,6 +188,27 @@ def test_document_none_type():
     doc = Document([None])
     assert doc.dumps() == "[null]"
     assert doc.as_obj == [None]
+
+
+def test_document_dict_type():
+    """
+    Ensure we can load and dump the dict type.
+    """
+    doc = Document('{"a": "b"}')
+    assert doc.dumps() == '{"a":"b"}'
+    assert doc.as_obj == {'a': 'b'}
+
+    doc = Document({"a": "b"})
+    assert doc.dumps() == '{"a":"b"}'
+    assert doc.as_obj == {'a': 'b'}
+
+    with pytest.raises(TypeError) as exc:
+        doc = Document({1: 'b'})
+    assert exc.value.args[0] == 'Dictionary keys must be strings'
+
+    with pytest.raises(TypeError) as exc:
+        doc = Document({'\ud83d\ude47': 'foo'})
+    assert exc.value.args[0] == 'Dictionary keys must be strings'
 
 
 def test_document_get_pointer():
